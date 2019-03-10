@@ -1,1 +1,2 @@
 # killersim
+An evolution simulator.
