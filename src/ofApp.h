@@ -14,6 +14,8 @@ class ofApp : public ofBaseApp{
 
 	ofTrueTypeFont myFont;
 
+	std::string display_text;
+
 	vector<Creature> creatures;
 
 	Map tilemap;

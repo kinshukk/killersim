@@ -9,11 +9,16 @@ void ofApp::setup(){
 
     printf("got screen size\n");
 
-    tilemap.init(50, 50, screenW, screenH);
+    tilemap.init(20, 20, screenW, screenH);
 
     printf("tilemap init done");
 
-    creatures.push_back(Creature(10, 10, 15, 20));
+    creatures.push_back(Creature(200,    //X
+                                 200,    //Y
+                                 60,    //initial_angle
+                                 50     //initial_velocity
+                                )
+                       );
 
     //for showing FPS
     myFont.load("arial.ttf", 20);
@@ -24,11 +29,16 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
+    display_text = "";
+
     //time passed since last frame(seconds, float)
     dt = ofGetLastFrameTime();
 
     for(int i=0; i<creatures.size(); i++){
-        creatures[i].update(dt, screenW, screenH);
+        creatures[i].think();
+        creatures[i].move(dt, screenW, screenH);
+        //TODO: make this work with keypress flag
+        // display_text += "\n" + i + " " + creatures[i].position_x + ", " + creatures[i].position_y;
     }
 }
 
@@ -44,7 +54,9 @@ void ofApp::draw(){
     }
 
     //Display FPS on top-right of screen
-    myFont.drawString(std::to_string((int)ofGetFrameRate()), ofGetWidth() - 40, 30);
+    display_text = std::to_string((int)ofGetFrameRate()) + "\n" + display_text;
+
+    myFont.drawString(display_text, ofGetWidth() - 40, 30);
 }
 
 //--------------------------------------------------------------

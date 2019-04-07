@@ -1,10 +1,11 @@
 #include "Creature.h"
 
-Creature::Creature(float x, float y, float v_x, float v_y){
+Creature::Creature(float x, float y, float initial_angle, float initial_velocity){
     position_x = x;
     position_y = y;
-    vel_x = v_x;
-    vel_y = v_y;
+    angle = initial_angle;
+    vel = initial_velocity;
+    omega = 1.0;
     radius = 30;
 }
 
@@ -14,9 +15,19 @@ void Creature::draw(){
     ofDrawCircle(position_x, position_y, 10, radius);
 }
 
+//decide outputs for next frame based on current inputs
+void think(){
+
+}
+
 //to calculate movement, behaviour
-void Creature::update(float dt, float screenW, float screenH){
+void Creature::move(float dt, float screenW, float screenH){
+    angle += omega * dt;
+
     //pos = pos + velocity * delta_time
-    position_x = clampVal(position_x + vel_x * dt, screenW);
-    position_y = clampVal(position_y + vel_y * dt, screenH);
+    position_x += vel * cos(angle) * dt;
+    position_y += vel * sin(angle) * dt;
+
+    position_x = clampVal(position_x, screenW);
+    position_y = clampVal(position_y, screenH);
 }
