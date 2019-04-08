@@ -35,11 +35,13 @@ void ofApp::update(){
     dt = ofGetLastFrameTime();
 
     for(int i=0; i<creatures.size(); i++){
-        creatures[i].think();
+        creatures[i].think(tilemap);
         creatures[i].move(dt, screenW, screenH);
         //TODO: make this work with keypress flag
         // display_text += "\n" + i + " " + creatures[i].position_x + ", " + creatures[i].position_y;
     }
+
+    tilemap.update(dt, screenW, screenH);
 }
 
 //--------------------------------------------------------------
@@ -61,13 +63,17 @@ void ofApp::draw(){
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-
+    //regenerate map values on pressing 'r'
+    if(key == 'r'){
+        tilemap.regenerate_values();
+    }
 }
 
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key){
 
 }
+
 
 //--------------------------------------------------------------
 void ofApp::mouseMoved(int x, int y ){

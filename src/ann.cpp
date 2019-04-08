@@ -3,8 +3,9 @@
 namespace Brain{
     class Neuron{
         bool visited;
-        double value;
-        
+        float value;
+        float weight, bias;
+        std::vector<size_t> in_nodes;
     };
 
     class NeuralNet{
@@ -15,6 +16,10 @@ namespace Brain{
         std::vector<size_t> inputs;
         std::vector<size_t> outputs;
 
+
+    };
+
+    class Genome{
 
     };
 }

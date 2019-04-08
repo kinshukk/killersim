@@ -1,21 +1,22 @@
 #include "Map.h"
+#include "utilities.h"
 
-void Map::init(int r, int c, int screenW, int screenH){
+void Map::init(int r, int c, int screenWidth, int screenHeight){
+    //random seed
+    srand(42);
+
+    screenW = screenWidth;
+    screenH = screenHeight;
+
     rows = r;
     columns = c;
-
-    printf("rows, columns set\n");
 
     //assume screen size is constant for now, maybe add event listener later
 
     width = (1.0 * screenW) / columns;
     height = (1.0 * screenH) / rows;
 
-    printf("width and height calculated\n");
-
     for(int i=0; i<columns; i++){
-        printf("inside outer loop\n");
-        printf("before inner loop, i=%d\n", i);
         for(int j=0; j<rows; j++){
             //set all to 100 for now;
             tile t;
@@ -24,15 +25,35 @@ void Map::init(int r, int c, int screenW, int screenH){
             t.Y_topleft = (1.0f * j * screenH) / rows;
 
             tiles[i].push_back(t);
+            cout <<"i " << i << " j " << j << endl;
         }
     }
 }
 
-//update the tiles
-void update(float dt, float screenW, float screenH){
-    //nothing right now
+void Map::regenerate_values(){
+    for(int i=0; i<columns; i++){
+        for(int j=0; j<rows; j++){
+            tiles[i][j].value = ((1.0f * rand()) / RAND_MAX) * 255.0f;
+        }
+    }
 }
 
+float tile_value_at(float x, float y){
+    //TODO: find which tile is at (x, y)
+    return 0.0f;
+}
+
+//update the tiles
+void Map::update(float dt, float screenW, float screenH){
+    for(int i=0; i<columns; i++){
+        for(int j=0; j<rows; j++){
+            //make sure value is between 0 and 255
+            tiles[i][j].value = clampValF(tiles[i][j].value + (DELTA_FOOD_PER_SEC * dt), 255.0f);
+        }
+    }
+}
+
+//TODO: draw black, white concentric borders as well
 void Map::draw(){
     for(int i=0; i<columns; i++){
         for(int j=0; j<rows; j++){

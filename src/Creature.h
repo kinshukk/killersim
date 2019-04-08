@@ -1,5 +1,8 @@
 #include "utilities.h"
 #include "ofMain.h"
+#include "Map.h"
+
+#define MAX_HEALTH 100
 
 class Creature{
     float position_x, position_y;
@@ -24,5 +27,5 @@ public:
     void move(float dt, float screenW, float screenH);
 
     //decide outputs for next frame based on current inputs
-    void think();   //paramaters?
+    void think(Map &tilemap_input);   //paramaters?
 };
