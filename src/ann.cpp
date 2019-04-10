@@ -1,6 +1,7 @@
 #include <vector>
 #include <utility>
 #include <random>
+#include <stack>
 
 namespace Brain{
     //represents the connecting edges
@@ -96,7 +97,7 @@ namespace Brain{
         float value;
 
         //pair: first is the node number, second is the edge weight
-        std::vector<std::pair<size_t, double> > in_nodes;
+        std::vector<std::pair<int, double> > in_nodes;
     } Neuron;
 
     class NeuralNet{
@@ -105,9 +106,9 @@ namespace Brain{
         std::vector<Neuron> nodes;
 
         //indices of inputs and outputs in the nodes array
-        std::vector<size_t> inputs;
-        std::vector<size_t> outputs;
-        std::vector<size_t> intermediates;
+        std::vector<int> inputs;
+        std::vector<int> outputs;
+        std::vector<int> intermediates;
 
         NeuralNet(){}
 
@@ -140,8 +141,74 @@ namespace Brain{
             }
         }
 
-        // std::vector<double> calculate(std::vector input_vals){
-        //
-        // }
+        void initialize_dummy(){
+            for(int i=0; i<nodes.size(); i++){
+                for(int j=0; j<nodes[i].in_nodes.size(); j++){
+                    nodes[i].in_nodes[j].second = 1.0;
+                    std::cout << i << " to " << nodes[i].in_nodes[j].first << " value " << nodes[i].in_nodes[j].second << "\n";
+                }
+            }
+        }
+
+        double tanh(double x){
+            double e2x = std::exp(2.0 * x);
+            return (e2x - 1.0) / (e2x + 1.0);
+        }
+
+        double sigmoid(double x){
+            return 1.0 / (1 + std::exp(-x));
+        }
+
+        //backwards DFS evaluation
+        void evaluate(std::vector<double>& input, std::vector<double>& output){
+            //prepare for showtime
+            for(int i=0; i<nodes.size(); i++){
+                nodes[i].value = 0;
+                nodes[i].visited = false;
+            }
+
+            for(int ind : inputs){
+                nodes[ind].value = input[ind];
+                nodes[ind].visited = true;
+            }
+
+            std::stack<int> S;
+            for(int ind: outputs){
+                S.push(ind);
+            }
+
+            while(!S.empty()){
+                int top_node = S.top();
+
+                if(nodes[top_node].visited == true){
+                    //all required previous nodes are calculated
+                    double sum = 0.0;
+
+                    for(std::pair<int, double> k : nodes[top_node].in_nodes){
+                        sum += k.second * (nodes[k.first].value);
+                    }
+
+                    nodes[top_node].value = tanh(sum);
+                    std::cout << "value of " << top_node << " is " << nodes[top_node].value << "\n";
+
+                    S.pop();
+                }
+                else {
+                    for(std::pair<int, double> k: nodes[top_node].in_nodes){
+                        //nodes whose value isn't calculated yet
+                        if(nodes[k.first].visited == false){
+                            S.push(k.first);
+                        }
+                    }
+
+                    nodes[top_node].visited = true;
+                }
+            }
+
+            for(int j=0; j<outputs.size(); j++){
+                //proper offset
+                output[j] = nodes[inputs.size() + intermediates.size() + j].value;
+            }
+        }
     };
 }
