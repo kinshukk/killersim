@@ -1,4 +1,5 @@
 #include "Creature.h"
+#include "Math.h"
 
 Creature::Creature(float x, float y, float initial_angle, float initial_velocity){
     position_x = x;
@@ -13,11 +14,22 @@ Creature::Creature(float x, float y, float initial_angle, float initial_velocity
 //draw the creature, duh
 void Creature::draw(){
     //TODO: make color a function of health, as in, redder when low, greener when high health
-    ofSetColor(255);
+    ofColor hitpoints;
+    hitpoints.r=255-(health*2.55);
+    hitpoints.g=health*2.55;
+    hitpoints.b=0;
+    ofSetColor(hitpoints);
 
     //TODO: add a border to the circle, and an arrow in the directio the creature is facing
     //according to the angle value
     ofDrawCircle(position_x, position_y, 10, radius);
+    ofVec3f tailend;
+    tailend.set(position_x,position_y,0);
+    ofVec3f headend;
+    headend.set((radius+5)/sin(angle),(radius+5)/cos(angle),0);
+    ofDrawArrow(tailend,headend,10);
+
+
 }
 
 //decide outputs for next frame based on current inputs
