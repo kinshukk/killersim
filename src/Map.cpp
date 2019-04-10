@@ -44,7 +44,6 @@ void Map::regenerate_values(){
 }
 
 tile Map::tile_value_at(float x, float y){
-    //TODO: find which tile is at (x, y)
     int c = floor((x * columns) / screenW);
     int r = floor((y * rows) / screenH);
 
