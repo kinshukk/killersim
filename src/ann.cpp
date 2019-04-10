@@ -3,6 +3,87 @@
 #include <random>
 
 namespace Brain{
+    //represents the connecting edges
+    typedef struct{
+        unsigned int from_node = -1;
+        unsigned int to_node = -1;
+        double weight = 0.0;
+    } gene;
+
+    class Genome{
+    public:
+        std::vector<gene> genes;
+        int num_inputs, num_outputs, num_intermediate;
+
+        std::random_device rd;
+        std::mt19937 gen; //mersenne twister
+        std::uniform_real_distribution<> random_dis;
+
+        //generates new genome
+        Genome(int inputs, int outputs, int intermediate){
+            num_inputs = inputs;
+            num_intermediate = intermediate;
+            num_outputs = outputs;
+
+            gen = std::mt19937(rd());
+            random_dis = std::uniform_real_distribution<>(-0.5, 0.5);
+
+            //fully connected nn
+            int count = 0;
+            for(int i=0; i<num_inputs; i++){
+                for(int j=0; j<num_intermediate; j++){
+                    gene g;
+                    g.from_node = i;
+                    g.to_node = num_inputs + j;
+                    g.weight = random_dis(gen);
+
+                    genes.push_back(g);
+                }
+            }
+
+            for(int j=0; j<num_intermediate; j++){
+                for(int k=0; k<num_outputs; k++){
+                    gene g;
+
+                    g.from_node = num_inputs + j;
+                    g.to_node = num_inputs + num_intermediate + k;
+                    g.weight = random_dis(gen);
+
+                    genes.push_back(g);
+                }
+            }
+        }
+
+        //mutate a number of genes
+        void mutateN(int n){
+            std::uniform_int_distribution<> dis(0, genes.size() - 1);
+
+            //randomly select edge, add random value from [-0.5, 0.5] to weight
+            for(int i=0; i<n; i++){
+                int ind = dis(gen);
+
+                std::cout << "mutating " << ind << " from " << genes[ind].weight;
+
+                genes[ind].weight += random_dis(gen);
+
+                std::cout << " to " << genes[ind].weight << "\n";
+            }
+        }
+
+        ///mutate 2 genes by default
+        void mutate(){
+            mutateN(2);
+        }
+
+        void print_genome(){
+            for(gene g: genes){
+                std::cout << g.from_node << " to " << g.to_node << " weight: " << g.weight << std::endl;
+            }
+        }
+
+        //TODO: copy one genome, mutate
+    };
+
     class Neuron{
         //0: not assigned
         //1: input node:
@@ -49,79 +130,12 @@ namespace Brain{
             }
 
             for(gene g: genome.genes){
-                
+
             }
         }
 
-        std::vector<double> calculate(std::vector input_vals){
-
-        }
-    };
-
-    //represents the connecting edges
-    typedef struct{
-        unsigned int from_node = -1;
-        unsigned int to_node = -1;
-        double weight = 0.0;
-    } gene;
-
-    class Genome{
-        std::vector<gene> genes;
-        int num_inputs, num_outputs, num_intermediate;
-
-        std::random_device rd;
-        std::mt19937 gen(rd()); //mersenne twister
-        std::uniform_real_distribution<> random_dis(-0.5, 0.5);
-
-        //generates new genome
-        Genome(int inputs, int outputs, int intermediate){
-            num_inputs = inputs;
-            num_intermediate = intermediate;
-            num_outputs = outputs;
-
-            //fully connected nn
-            int count = 0;
-            for(int i=0; i<num_inputs; i++){
-                for(int j=0; j<num_intermediate; j++){
-                    gene g;
-                    g.from_node = i;
-                    g.to_node = num_inputs + j;
-                    g.weight = random_dis(gen);
-
-                    genes.append(g);
-                }
-            }
-
-            for(int j=0; j<num_intermediate; j++){
-                for(int k=0; k<num_outputs; k++){
-                    gene g;
-
-                    g.from_node = j;
-                    g.to_node = num_inputs + num_intermediate + k;
-                    g.weight = random_dis(gen);
-
-                    genes.append(g);
-                }
-            }
-        }
-
-        //mutate a number of genes
-        void mutateN(int n){
-            std::uniform_int_distribution<> dis(0, genes.size() - 1);
-
-            //randomly select edge, add random value from [-0.5, 0.5] to weight
-            for(int i=0; i<n; i++){
-                int ind = dis(gen);
-
-                genes[ind].weight += random_dis(gen);
-            }
-        }
-
-        ///mutate 2 genes by default
-        void mutate(){
-            mutateN(2);
-        }
-
-        //TODO: copy one genome, mutate
+        // std::vector<double> calculate(std::vector input_vals){
+        //
+        // }
     };
 }
