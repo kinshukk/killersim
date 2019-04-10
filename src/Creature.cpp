@@ -1,4 +1,5 @@
 #include "Creature.h"
+#include "Math.h"
 
 Creature::Creature(float x, float y, float initial_angle, float initial_velocity){
     position_x = x;
@@ -22,6 +23,13 @@ void Creature::draw(){
     //TODO: add a border to the circle, and an arrow in the directio the creature is facing
     //according to the angle value
     ofDrawCircle(position_x, position_y, 10, radius);
+    ofVec3f tailend;
+    tailend.set(position_x,position_y,0);
+    ofVec3f headend;
+    headend.set((radius+5)/sin(angle),(radius+5)/cos(angle),0);
+    ofDrawArrow(tailend,headend,10);
+
+
 }
 
 //decide outputs for next frame based on current inputs
