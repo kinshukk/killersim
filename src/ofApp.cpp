@@ -2,16 +2,10 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-    printf("setup begin\n");
-
     screenW = ofGetWidth();
     screenH = ofGetHeight();
 
-    printf("got screen size\n");
-
     tilemap.init(20, 20, screenW, screenH);
-
-    printf("tilemap init done");
 
     creatures.push_back(Creature(200,    //X
                                  200,    //Y
@@ -55,6 +49,9 @@ void ofApp::draw(){
         creatures[i].draw();
     }
 
+    //TODO: toggle show info on top right when a key is pressed
+    //info other than FPS as well, like delta_food_per_sec, num of creatures on the map, etc.
+
     //Display FPS on top-right of screen
     display_text = std::to_string((int)ofGetFrameRate()) + "\n" + display_text;
 
@@ -63,9 +60,14 @@ void ofApp::draw(){
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-    //regenerate map values on pressing 'r'
     if(key == 'r'){
         tilemap.regenerate_values();
+    }
+
+    if(key == 'w'){
+        tilemap.increase_delta_food();
+    }else if(key == 's'){
+        tilemap.decrease_delta_food();
     }
 }
 

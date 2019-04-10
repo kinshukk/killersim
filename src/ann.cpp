@@ -4,7 +4,6 @@ namespace Brain{
     class Neuron{
         bool visited;
         float value;
-        float weight, bias;
         std::vector<size_t> in_nodes;
     };
 
