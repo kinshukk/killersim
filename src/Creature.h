@@ -4,6 +4,9 @@
 
 #define MAX_HEALTH 100
 
+//per second
+#define MAX_EAT_RATE 10
+
 class Creature{
     float position_x, position_y;
 

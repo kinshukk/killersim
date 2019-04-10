@@ -48,7 +48,7 @@ tile Map::tile_value_at(float x, float y){
     int c = floor((x * columns) / screenW);
     int r = floor((y * rows) / screenH);
 
-    cout << "(" << c << ", " << r << "): " << tiles[c][r].value << "\n";
+    // cout << "(" << c << ", " << r << "): " << tiles[c][r].value << "\n";
 
     return tiles[c][r];
 }

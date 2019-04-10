@@ -37,7 +37,7 @@ void Creature::think(Map &tilemap_input){
     //dummy thinking loop, change to neural net evaluation
     float eye0, eye1, eye2, eye3;
 
-    cout << "food at centre: " << tilemap_input.tile_value_at(position_x, position_y).value;
+    // cout << "food at centre: " << tilemap_input.tile_value_at(position_x, position_y).value;
 }
 
 //to calculate movement, behaviour

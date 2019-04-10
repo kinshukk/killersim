@@ -7,6 +7,8 @@
 #include <vector>
 #include <string>
 
+#define MAX_FRAME_SKIP 500
+
 class ofApp : public ofBaseApp{
 	float screenW, screenH;
 
@@ -21,6 +23,11 @@ class ofApp : public ofBaseApp{
 	Map tilemap;
 
 	bool vsync_flag;
+
+	int frames_to_skip;
+	int skipped_frame_count;
+
+	ofFbo buffer;
 
 	public:
 		void setup();

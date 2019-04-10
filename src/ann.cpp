@@ -28,6 +28,7 @@ namespace Brain{
 
     };
 
+    //represents the connecting edges
     typedef struct{
         unsigned int from_node = -1;
         unsigned int to_node = -1;
@@ -36,5 +37,17 @@ namespace Brain{
 
     class Genome{
         std::vector<gene> genes;
+        int inputs, outputs, intermediate;
+
+        Genome(int num_inputs, int num_outputs, int num_intermediate){
+            inputs = num_inputs;
+            outputs = num_outputs;
+            intermediate = num_intermediate;
+
+            int count = 0;
+            for(int i=0; i<num_inputs; i++){
+
+            }
+        }
     };
 }
