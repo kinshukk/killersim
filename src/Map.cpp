@@ -76,13 +76,27 @@ void Map::draw(){
     for(int i=0; i<columns; i++){
         for(int j=0; j<rows; j++){
             ofSetColor(tiles[i][j].value);
-            ofDrawRectangle(
-                    tiles[i][j].X_topleft,
-                    tiles[i][j].Y_topleft,
-                    5,
-                    width,
-                    height
-                );
+            ofDrawRectangle(tiles[i][j].X_topleft,tiles[i][j].Y_topleft,5,width,height);
+            ofPath pathB;
+                pathB.moveTo(tiles[i][j].X_topleft,tiles[i][j].Y_topleft);
+                pathB.lineTo(tiles[i][j].X_topleft,tiles[i][j].Y_topleft+width);
+                pathB.lineTo(tiles[i][j].X_topleft-height,tiles[i][j].Y_topleft+width);
+                pathB.lineTo(tiles[i][j].X_topleft-height,tiles[i][j].Y_topleft);
+                pathB.close();
+                pathB.setStrokeColor(ofColor(0,0,0));
+                pathB.setFilled(false);
+                pathB.setStrokeWidth(3);
+                pathB.draw();   
+            ofPath pathW;
+                pathW.moveTo(tiles[i][j].X_topleft,tiles[i][j].Y_topleft);
+                pathW.lineTo(tiles[i][j].X_topleft,tiles[i][j].Y_topleft+width);
+                pathW.lineTo(tiles[i][j].X_topleft-height,tiles[i][j].Y_topleft+width);
+                pathW.lineTo(tiles[i][j].X_topleft-height,tiles[i][j].Y_topleft);
+                pathW.close();
+                pathW.setStrokeColor(ofColor(255,255,255));
+                pathW.setFilled(false);
+                pathW.setStrokeWidth(1.5);
+                pathW.draw();
         }
     }
 }
