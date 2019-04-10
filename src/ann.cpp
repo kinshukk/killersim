@@ -26,7 +26,7 @@ namespace Brain{
             num_outputs = outputs;
 
             gen = std::mt19937(rd());
-            random_dis = std::uniform_real_distribution<>(-0.5, 0.5);
+            random_dis = std::uniform_real_distribution<>(-0.1, 0.1);
 
             //fully connected nn
             int count = 0;
@@ -84,7 +84,7 @@ namespace Brain{
         //TODO: copy one genome, mutate
     };
 
-    class Neuron{
+    typedef struct{
         //0: not assigned
         //1: input node:
         //2: intermediate node
@@ -97,9 +97,10 @@ namespace Brain{
 
         //pair: first is the node number, second is the edge weight
         std::vector<std::pair<size_t, double> > in_nodes;
-    };
+    } Neuron;
 
     class NeuralNet{
+    public:
         //index of the node in this vector is what we'll use to refer to the node
         std::vector<Neuron> nodes;
 
@@ -110,27 +111,32 @@ namespace Brain{
 
         NeuralNet(){}
 
-        void generateFromGenome(Genome genome){
+        void generateFromGenome(Genome &genome){
             for(int i=0; i<genome.num_inputs; i++){
                 Neuron n;
+                n.type = 1;
                 nodes.push_back(n);
                 inputs.push_back(nodes.size()-1);
             }
 
             for(int j=0; j<genome.num_intermediate; j++){
                 Neuron n;
+                n.type = 2;
                 nodes.push_back(n);
                 intermediates.push_back(nodes.size()-1);
             }
 
             for(int j=0; j<genome.num_outputs; j++){
                 Neuron n;
+                n.type = 3;
                 nodes.push_back(n);
                 outputs.push_back(nodes.size()-1);
             }
 
             for(gene g: genome.genes){
-
+                nodes[g.to_node].in_nodes.push_back(
+                    std::make_pair(g.from_node, g.weight)
+                );
             }
         }
 
