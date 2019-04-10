@@ -2,9 +2,18 @@
 
 namespace Brain{
     class Neuron{
+        //0: not assigned
+        //1: input node:
+        //2: intermediate node
+        //3: output node
+        short type = 0;
+
         bool visited;
+
         float value;
-        std::vector<size_t> in_nodes;
+
+        //pair: first is the node number, second is the edge weight
+        std::vector<std::pair<size_t, double> > in_nodes;
     };
 
     class NeuralNet{

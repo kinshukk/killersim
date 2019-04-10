@@ -17,8 +17,10 @@ void ofApp::setup(){
     //for showing FPS
     myFont.load("arial.ttf", 20);
 
+    vsync_flag = true;
+
     //match drawing framerate with screen refresh rate
-    ofSetVerticalSync(true);
+    ofSetVerticalSync(vsync_flag);
 }
 
 //--------------------------------------------------------------
@@ -31,6 +33,7 @@ void ofApp::update(){
     for(int i=0; i<creatures.size(); i++){
         creatures[i].think(tilemap);
         creatures[i].move(dt, screenW, screenH);
+
         //TODO: make this work with keypress flag
         // display_text += "\n" + i + " " + creatures[i].position_x + ", " + creatures[i].position_y;
     }
@@ -60,14 +63,20 @@ void ofApp::draw(){
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-    if(key == 'r'){
-        tilemap.regenerate_values();
-    }
-
-    if(key == 'w'){
-        tilemap.increase_delta_food();
-    }else if(key == 's'){
-        tilemap.decrease_delta_food();
+    switch(key){
+        case 'r':
+            tilemap.regenerate_values();
+            break;
+        case 'w':
+            tilemap.increase_delta_food();
+            break;
+        case 's':
+            tilemap.decrease_delta_food();
+            break;
+        case 'v':
+            vsync_flag = !vsync_flag;
+            ofSetVerticalSync(vsync_flag);
+            break;
     }
 }
 

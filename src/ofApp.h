@@ -20,6 +20,8 @@ class ofApp : public ofBaseApp{
 
 	Map tilemap;
 
+	bool vsync_flag;
+
 	public:
 		void setup();
 		void update();
