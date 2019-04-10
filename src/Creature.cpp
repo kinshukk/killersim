@@ -1,12 +1,11 @@
 #include "Creature.h"
-#include "math.h"
 
 Creature::Creature(float x, float y, float initial_angle, float initial_velocity){
     position_x = x;
     position_y = y;
     angle = initial_angle;
     vel = initial_velocity;
-    omega = 0.05;
+    omega = 0.5;
     radius = 20;
     health = MAX_HEALTH/2;
 }
@@ -30,12 +29,24 @@ void Creature::draw(){
     headend.set(position_x + radius*cos(angle), position_y + radius*sin(angle), 10);
     ofSetColor(255);
     ofDrawArrow(tailend, headend, radius / 4.0);
+
+    ofSetColor(0, 0, 255);
+    ofDrawCircle(eye0.first, eye0.second, 10, 5);
+    ofDrawCircle(eye1.first, eye1.second, 10, 5);
+    ofDrawCircle(eye2.first, eye2.second, 10, 5);
+    ofDrawCircle(eye3.first, eye3.second, 10, 5);
+    ofSetColor(255);
 }
 
 //decide outputs for next frame based on current inputs
 void Creature::think(Map &tilemap_input){
     //dummy thinking loop, change to neural net evaluation
-    float eye0, eye1, eye2, eye3;
+    // int eye0, eye1, eye2, eye3;
+    //
+    // eye0 = tilemap_input.tile_value_at(position_x, position_y);
+    // eye1 = tilemap_input.tile_value_at(position_x + (radius + 10) * cos(angle + PI / 2.0), position_y + (radius + 10) * sin(angle + PI / 2.0));
+    // eye2 = tilemap_input.tile_value_at(position_x + (radius + 10) * cos(angle), position_y + (radius + 10) * sin(angle));
+    // eye3 = tilemap_input.tile_value_at(position_x + (radius + 10) * cos(angle - PI / 2.0), position_y + (radius + 10) * sin(angle - PI / 2.0));
 
     // cout << "food at centre: " << tilemap_input.tile_value_at(position_x, position_y).value;
 }
@@ -50,4 +61,16 @@ void Creature::move(float dt, float screenW, float screenH){
 
     position_x = clampValI(position_x, screenW);
     position_y = clampValI(position_y, screenH);
+
+    eye0.first = position_x;
+    eye0.second = position_y;
+
+    eye1.first = position_x + (radius + 15) * cos(angle + PI / 6.0);
+    eye1.second = position_y + (radius + 15) * sin(angle + PI / 6.0);
+
+    eye2.first = position_x + (radius + 15) * cos(angle - PI / 6.0);
+    eye2.second = position_y + (radius + 15) * sin(angle - PI / 6.0);
+
+    eye3.first = position_x - (radius + 15) * cos(angle);
+    eye3.second = position_y - (radius + 15) * sin(angle);
 }
