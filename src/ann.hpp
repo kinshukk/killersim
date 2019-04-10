@@ -1,6 +1,7 @@
 #include <vector>
 #include <utility>
 #include <random>
+#include <iostream>
 #include <stack>
 
 namespace Brain{
