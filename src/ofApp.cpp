@@ -9,8 +9,8 @@ void ofApp::setup(){
 
     creatures.push_back(Creature(200,    //X
                                  200,    //Y
-                                 60,    //initial_angle
-                                 50     //initial_velocity
+                                 0,    //initial_angle
+                                 5     //initial_velocity
                                 )
                        );
 
@@ -31,11 +31,13 @@ void ofApp::update(){
     dt = ofGetLastFrameTime();
 
     for(int i=0; i<creatures.size(); i++){
-        creatures[i].think(tilemap);
-        creatures[i].move(dt, screenW, screenH);
+        if(creatures[i].alive){
+            creatures[i].think(tilemap);
+            creatures[i].move(dt, screenW, screenH);
 
-        //TODO: make this work with keypress flag
-        // display_text += "\n" + i + " " + creatures[i].position_x + ", " + creatures[i].position_y;
+            //TODO: make this work with keypress flag
+            // display_text += "\n" + i + " " + creatures[i].position_x + ", " + creatures[i].position_y;
+        }
     }
 
     tilemap.update(dt, screenW, screenH);
@@ -49,7 +51,9 @@ void ofApp::draw(){
     tilemap.draw();
 
     for(int i=0; i<creatures.size(); i++){
-        creatures[i].draw();
+        if(creatures[i].alive){
+            creatures[i].draw();
+        }
     }
 
     //TODO: toggle show info on top right when a key is pressed
@@ -64,7 +68,7 @@ void ofApp::draw(){
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
     switch(key){
-        case 'r':
+        case 'r':   //randomize tiles
             tilemap.regenerate_values();
             break;
         case 'w':
@@ -73,7 +77,7 @@ void ofApp::keyPressed(int key){
         case 's':
             tilemap.decrease_delta_food();
             break;
-        case 'v':
+        case 'v':   //toggle vsync
             vsync_flag = !vsync_flag;
             ofSetVerticalSync(vsync_flag);
             break;

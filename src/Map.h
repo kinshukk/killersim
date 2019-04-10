@@ -19,6 +19,7 @@ class Map{
     int delta_food_per_sec;
 
     //100 default since I couldn't get dynamic size initialization to work
+    //NOTE: all 100 aren't used always
     vector<tile> tiles[100];
 
 public:
@@ -26,7 +27,7 @@ public:
     void draw();
     void update(float dt, float screenW, float screenH);
     void regenerate_values();
-    float tile_value_at(float x, float y);
+    tile tile_value_at(float x, float y);
     void increase_delta_food();
     void decrease_delta_food();
 };

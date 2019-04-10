@@ -6,9 +6,9 @@ Creature::Creature(float x, float y, float initial_angle, float initial_velocity
     position_y = y;
     angle = initial_angle;
     vel = initial_velocity;
-    omega = 1.0;
-    radius = 30;
-    health = MAX_HEALTH;
+    omega = 0.05;
+    radius = 20;
+    health = MAX_HEALTH/2;
 }
 
 //draw the creature, duh
@@ -29,14 +29,15 @@ void Creature::draw(){
     ofVec3f headend;
     headend.set(position_x + radius*cos(angle), position_y + radius*sin(angle), 10);
     ofSetColor(255);
-    ofDrawArrow(tailend,headend,10);
+    ofDrawArrow(tailend, headend, radius / 4.0);
 }
 
 //decide outputs for next frame based on current inputs
 void Creature::think(Map &tilemap_input){
     //dummy thinking loop, change to neural net evaluation
     float eye0, eye1, eye2, eye3;
-    cout << "thinking" << endl;
+
+    cout << "food at centre: " << tilemap_input.tile_value_at(position_x, position_y).value;
 }
 
 //to calculate movement, behaviour

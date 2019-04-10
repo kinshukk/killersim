@@ -43,9 +43,14 @@ void Map::regenerate_values(){
     }
 }
 
-float Map::tile_value_at(float x, float y){
+tile Map::tile_value_at(float x, float y){
     //TODO: find which tile is at (x, y)
-    return 0.0f;
+    int c = floor((x * columns) / screenW);
+    int r = floor((y * rows) / screenH);
+
+    cout << "(" << c << ", " << r << "): " << tiles[c][r].value << "\n";
+
+    return tiles[c][r];
 }
 
 void Map::increase_delta_food(){

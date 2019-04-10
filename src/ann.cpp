@@ -1,4 +1,5 @@
 #include <vector>
+#include <utility>
 
 namespace Brain{
     class Neuron{
@@ -27,7 +28,13 @@ namespace Brain{
 
     };
 
-    class Genome{
+    typedef struct{
+        unsigned int from_node = -1;
+        unsigned int to_node = -1;
+        float weight = 0.0;
+    } gene;
 
+    class Genome{
+        std::vector<gene> genes;
     };
 }

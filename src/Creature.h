@@ -18,6 +18,8 @@ class Creature{
     float health;
 
 public:
+
+    bool alive = true;
     Creature(float x, float y, float v_x, float v_y);
 
     //to draw the creature
