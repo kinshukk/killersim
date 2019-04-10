@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 
+
 #ifndef _MAP_H_
 #define _MAP_H_
 
@@ -30,6 +31,7 @@ public:
     tile tile_value_at(float x, float y);
     void increase_delta_food();
     void decrease_delta_food();
+    
 };
 
 #endif

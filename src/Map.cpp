@@ -1,5 +1,6 @@
 #include "Map.h"
 #include "utilities.h"
+#include "Simplex.h"
 
 void Map::init(int r, int c, int screenWidth, int screenHeight){
     //random seed
@@ -33,12 +34,14 @@ void Map::init(int r, int c, int screenWidth, int screenHeight){
     regenerate_values();
 }
 
+
 void Map::regenerate_values(){
     //TODO: add some averaging with adjacent tiles to 'smooth' out randomness
     //ideal would be to have some coherent noise (Simplex perhaps)
+
     for(int i=0; i<columns; i++){
         for(int j=0; j<rows; j++){
-            tiles[i][j].value = ((1.0f * rand()) / RAND_MAX) * 255.0f;
+            tiles[i][j].value = SimplexNoise::noisegen((double)i,(double)j);
         }
     }
 }
