@@ -11,6 +11,11 @@
 
 #define PI 3.14159265358979323846264338
 
+#define HEALTH_DECAY_PER_SEC 10
+
+#define VEL_SCALE 20
+#define OMEGA_SCALE 5
+
 class Creature{
 
     float angle, vel, omega;
@@ -28,6 +33,12 @@ class Creature{
     pair<double, double> eye2;
     pair<double, double> eye3;
 
+    std::vector<double> inp;
+    std::vector<double> outp;
+
+    //this is the 'k' in y(x) = k*x^2, parabolic scaling of food eating rate
+    //as a function of food available
+    double k;
 public:
     // Brain::Genome genome;
     Brain::NeuralNet net;
@@ -44,7 +55,9 @@ public:
     void act(float dt, float screenW, float screenH);
 
     //decide outputs for next frame based on current inputs
-    void think(Map &tilemap_input);   //paramaters?
+    void think(float dt, Map &tilemap_input);   //paramaters?
+
+    double eating_rate_per_sec(double available_food);
 };
 
 #endif

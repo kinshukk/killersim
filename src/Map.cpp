@@ -43,13 +43,20 @@ void Map::regenerate_values(){
     }
 }
 
-tile Map::tile_value_at(float x, float y){
+float Map::tile_value_at(float x, float y){
     int c = floor((x * columns) / screenW);
     int r = floor((y * rows) / screenH);
 
     // cout << "(" << c << ", " << r << "): " << tiles[c][r].value << "\n";
 
-    return tiles[c][r];
+    return tiles[c][r].value;
+}
+
+void Map::decrease_tile_value_at(std::pair<double, double> coords, double delta){
+    int c = floor((coords.first * columns) / screenW);
+    int r = floor((coords.second * rows) / screenH);
+
+    tiles[c][r].value = clampValF(tiles[c][r].value - delta, 255.0);
 }
 
 void Map::increase_delta_food(){

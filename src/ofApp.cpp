@@ -42,7 +42,7 @@ void ofApp::update(){
 
     for(int i=0; i<creatures.size(); i++){
         if(creatures[i].alive){
-            creatures[i].think(tilemap);
+            creatures[i].think(dt, tilemap);
             creatures[i].act(dt, screenW, screenH);
 
             //TODO: make this work with keypress flag
@@ -68,17 +68,16 @@ void ofApp::draw(){
                 creatures[i].draw();
             }
         }
-        //TODO: toggle show info on top right when a key is pressed
-        //info other than FPS as well, like delta_food_per_sec, num of creatures on the map, etc.
-           if(pos_flag)
-            {
-            	myFont.drawString(display_pos,ofGetWidth() - 500,100);
-            }
+
+        if(pos_flag){
+        	myFont.drawString(display_pos,ofGetWidth() - 500,100);
+        }
+
         display_info="Number of creatures " + std::to_string((int)creatures.size()) + "\n" + "Food Decay Rate "+std::to_string((int)tilemap.delta_food_per_sec);
-           if(info_flag)
-        	{
-        		myFont.drawString(display_info, ofGetWidth() - 900, 30);
-            }
+
+        if(info_flag){
+        	myFont.drawString(display_info, ofGetWidth() - 900, 30);
+        }
         //Display FPS on top-right of screen
         display_text = std::to_string((int)ofGetFrameRate()) + "\n" + display_text;
         myFont.drawString(display_text, ofGetWidth() - 40, 30);

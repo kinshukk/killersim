@@ -8,6 +8,11 @@ Creature::Creature(float x, float y, float initial_angle, float initial_velocity
     omega = 0.0;
     radius = 20;
     health = MAX_HEALTH;
+
+    inp = {0, 0, 0, 0, 0};
+    outp = {0, 0};
+
+    k = (5.0 * HEALTH_DECAY_PER_SEC) / (255.0 * 255.0);
 }
 
 //draw the creature, duh
@@ -38,10 +43,39 @@ void Creature::draw(){
     ofSetColor(255);
 }
 
-//decide outputs for next frame based on current inputs
-void Creature::think(Map &tilemap_input){
-    //dummy thinking loop, change to neural net evaluation
+double Creature::eating_rate_per_sec(double available_food){
+    return k * available_food * available_food;
+}
 
+//decide outputs for next frame based on current inputs
+void Creature::think(float dt, Map &tilemap_input){
+    //normalized inputs;
+    inp[0] = tilemap_input.tile_value_at(eye0.first, eye0.second) / 255.0;
+    inp[1] = tilemap_input.tile_value_at(eye1.first, eye1.second) / 255.0;
+    inp[2] = tilemap_input.tile_value_at(eye2.first, eye2.second) / 255.0;
+    inp[3] = tilemap_input.tile_value_at(eye3.first, eye3.second) / 255.0;
+    inp[4] = health / MAX_HEALTH;
+
+    net.evaluate(inp, outp);
+
+    vel = outp[0] * VEL_SCALE;
+    omega = outp[1] * OMEGA_SCALE;
+
+    std::cout << "output of NN: vel: " << vel << " | omega " << omega << "\n";
+
+    double delta_food = eating_rate_per_sec(inp[0]) * dt;
+
+    tilemap_input.decrease_tile_value_at(eye0, delta_food);
+
+    health = health + delta_food - HEALTH_DECAY_PER_SEC * dt;
+
+    if(health < 0.0){
+        alive = false;
+    }
+
+    if(health > MAX_HEALTH){
+        health = MAX_HEALTH;
+    }
 }
 
 //to calculate movement, behaviour
