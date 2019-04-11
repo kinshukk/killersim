@@ -5,9 +5,9 @@ Creature::Creature(float x, float y, float initial_angle, float initial_velocity
     position_y = y;
     angle = initial_angle;
     vel = initial_velocity;
-    omega = 0.5;
+    omega = 0.0;
     radius = 20;
-    health = MAX_HEALTH/2;
+    health = MAX_HEALTH;
 }
 
 //draw the creature, duh
@@ -41,11 +41,11 @@ void Creature::draw(){
 //decide outputs for next frame based on current inputs
 void Creature::think(Map &tilemap_input){
     //dummy thinking loop, change to neural net evaluation
-    
+
 }
 
 //to calculate movement, behaviour
-void Creature::move(float dt, float screenW, float screenH){
+void Creature::act(float dt, float screenW, float screenH){
     angle += omega * dt;
 
     //pos = pos + velocity * delta_time

@@ -1,3 +1,6 @@
+#ifndef _ANN_HPP_
+#define _ANN_HPP_
+
 #include <vector>
 #include <utility>
 #include <random>
@@ -17,21 +20,16 @@ namespace Brain{
         std::vector<gene> genes;
         int num_inputs, num_outputs, num_intermediate;
 
-        std::random_device rd;
-        std::mt19937 gen; //mersenne twister
-        std::uniform_real_distribution<> random_dis;
+        void initialize(int inputs, int outputs, int intermediate){
+            std::random_device rd;
+            std::mt19937 gen(rd()); //mersenne twister
+            std::uniform_real_distribution<> random_dis(-0.1, 0.1);
 
-        //generates new genome
-        Genome(int inputs, int outputs, int intermediate){
             num_inputs = inputs;
             num_intermediate = intermediate;
             num_outputs = outputs;
 
-            gen = std::mt19937(rd());
-            random_dis = std::uniform_real_distribution<>(-0.1, 0.1);
-
             //fully connected nn
-            int count = 0;
             for(int i=0; i<num_inputs; i++){
                 for(int j=0; j<num_intermediate; j++){
                     gene g;
@@ -56,13 +54,16 @@ namespace Brain{
             }
         }
 
+
         //mutate a number of genes
         void mutateN(int n){
-            std::uniform_int_distribution<> dis(0, genes.size() - 1);
+            std::random_device rd;
+            std::mt19937 gen(rd()); //mersenne twister
+            std::uniform_real_distribution<> random_dis(-0.1, 0.1);
 
             //randomly select edge, add random value from [-0.5, 0.5] to weight
             for(int i=0; i<n; i++){
-                int ind = dis(gen);
+                int ind = random_dis(gen);
 
                 std::cout << "mutating " << ind << " from " << genes[ind].weight;
 
@@ -213,3 +214,5 @@ namespace Brain{
         }
     };
 }
+
+#endif

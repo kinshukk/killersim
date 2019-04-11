@@ -1,3 +1,6 @@
+#ifndef _CREATURE_
+#define _CREATURE_
+
 #include "utilities.h"
 #include "ofMain.h"
 #include "Map.h"
@@ -6,13 +9,10 @@
 
 #define MAX_HEALTH 100
 
-//per second
-#define MAX_EAT_RATE 10
-
 #define PI 3.14159265358979323846264338
 
 class Creature{
-    
+
     float angle, vel, omega;
 
     //for rendering only as of now
@@ -28,10 +28,10 @@ class Creature{
     pair<double, double> eye2;
     pair<double, double> eye3;
 
-    // Brain::Genome genome;
-    // Brain::NeuralNet brain;
-
 public:
+    // Brain::Genome genome;
+    Brain::NeuralNet net;
+
     float position_x, position_y;
 
     bool alive = true;
@@ -41,8 +41,10 @@ public:
     void draw();
 
     //for moving
-    void move(float dt, float screenW, float screenH);
+    void act(float dt, float screenW, float screenH);
 
     //decide outputs for next frame based on current inputs
     void think(Map &tilemap_input);   //paramaters?
 };
+
+#endif

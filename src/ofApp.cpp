@@ -19,6 +19,8 @@ void ofApp::setup(){
                                 )
                        );
 
+    pop.initialize_random(2);
+
     //for showing FPS
     myFont.load("arial.ttf", 20);
 
@@ -41,7 +43,7 @@ void ofApp::update(){
     for(int i=0; i<creatures.size(); i++){
         if(creatures[i].alive){
             creatures[i].think(tilemap);
-            creatures[i].move(dt, screenW, screenH);
+            creatures[i].act(dt, screenW, screenH);
 
             //TODO: make this work with keypress flag
             display_pos += "\n" + std::to_string(i) + " " + std::to_string(creatures[i].position_x) + ", " + std::to_string(creatures[i].position_y);

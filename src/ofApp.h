@@ -3,6 +3,7 @@
 #include "ofMain.h"
 #include "Creature.h"
 #include "Map.h"
+#include "Population.hpp"
 #include "utilities.h"
 #include <vector>
 #include <string>
@@ -21,6 +22,7 @@ class ofApp : public ofBaseApp{
 	std::string display_pos;
 
 	vector<Creature> creatures;
+	Population pop;
 
 	Map tilemap;
 
