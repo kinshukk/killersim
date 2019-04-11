@@ -41,14 +41,7 @@ void Creature::draw(){
 //decide outputs for next frame based on current inputs
 void Creature::think(Map &tilemap_input){
     //dummy thinking loop, change to neural net evaluation
-    // int eye0, eye1, eye2, eye3;
-    //
-    // eye0 = tilemap_input.tile_value_at(position_x, position_y);
-    // eye1 = tilemap_input.tile_value_at(position_x + (radius + 10) * cos(angle + PI / 2.0), position_y + (radius + 10) * sin(angle + PI / 2.0));
-    // eye2 = tilemap_input.tile_value_at(position_x + (radius + 10) * cos(angle), position_y + (radius + 10) * sin(angle));
-    // eye3 = tilemap_input.tile_value_at(position_x + (radius + 10) * cos(angle - PI / 2.0), position_y + (radius + 10) * sin(angle - PI / 2.0));
-
-    // cout << "food at centre: " << tilemap_input.tile_value_at(position_x, position_y).value;
+    
 }
 
 //to calculate movement, behaviour

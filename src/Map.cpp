@@ -34,8 +34,8 @@ void Map::init(int r, int c, int screenWidth, int screenHeight){
 }
 
 void Map::regenerate_values(){
-    //TODO: add some averaging with adjacent tiles to 'smooth' out randomness
-    //ideal would be to have some coherent noise (Simplex perhaps)
+    //TODO: maybe generate values at some grid points, and interpolate between them?
+    //aim is to have smooth variation in noise
     for(int i=0; i<columns; i++){
         for(int j=0; j<rows; j++){
             tiles[i][j].value = ((1.0f * rand()) / RAND_MAX) * 255.0f;
@@ -76,22 +76,22 @@ void Map::draw(){
     for(int i=0; i<columns; i++){
         for(int j=0; j<rows; j++){
             ofSetColor(tiles[i][j].value);
-            ofDrawRectangle(tiles[i][j].X_topleft,tiles[i][j].Y_topleft,5,width,height);
+            ofDrawRectangle(tiles[i][j].X_topleft,tiles[i][j].Y_topleft,0,width,height);
             ofPath pathB;
                 pathB.moveTo(tiles[i][j].X_topleft,tiles[i][j].Y_topleft);
-                pathB.lineTo(tiles[i][j].X_topleft,tiles[i][j].Y_topleft+width);
-                pathB.lineTo(tiles[i][j].X_topleft-height,tiles[i][j].Y_topleft+width);
-                pathB.lineTo(tiles[i][j].X_topleft-height,tiles[i][j].Y_topleft);
+                pathB.lineTo(tiles[i][j].X_topleft,tiles[i][j].Y_topleft+height);
+                pathB.lineTo(tiles[i][j].X_topleft+width,tiles[i][j].Y_topleft+height);
+                pathB.lineTo(tiles[i][j].X_topleft+width,tiles[i][j].Y_topleft);
                 pathB.close();
                 pathB.setStrokeColor(ofColor(0,0,0));
                 pathB.setFilled(false);
                 pathB.setStrokeWidth(3);
-                pathB.draw();   
+                pathB.draw();
             ofPath pathW;
                 pathW.moveTo(tiles[i][j].X_topleft,tiles[i][j].Y_topleft);
-                pathW.lineTo(tiles[i][j].X_topleft,tiles[i][j].Y_topleft+width);
-                pathW.lineTo(tiles[i][j].X_topleft-height,tiles[i][j].Y_topleft+width);
-                pathW.lineTo(tiles[i][j].X_topleft-height,tiles[i][j].Y_topleft);
+                pathW.lineTo(tiles[i][j].X_topleft,tiles[i][j].Y_topleft+height);
+                pathW.lineTo(tiles[i][j].X_topleft+height,tiles[i][j].Y_topleft+height);
+                pathW.lineTo(tiles[i][j].X_topleft+height,tiles[i][j].Y_topleft);
                 pathW.close();
                 pathW.setStrokeColor(ofColor(255,255,255));
                 pathW.setFilled(false);

@@ -33,6 +33,7 @@ void ofApp::setup(){
 //--------------------------------------------------------------
 void ofApp::update(){
     display_text = "";
+    display_pos = "";
 
     //time passed since last frame(seconds, float)
     dt = ofGetLastFrameTime();
@@ -75,7 +76,7 @@ void ofApp::draw(){
            if(info_flag)
         	{
         		myFont.drawString(display_info, ofGetWidth() - 900, 30);
-            }   
+            }
         //Display FPS on top-right of screen
         display_text = std::to_string((int)ofGetFrameRate()) + "\n" + display_text;
         myFont.drawString(display_text, ofGetWidth() - 40, 30);
@@ -86,7 +87,7 @@ void ofApp::draw(){
     buffer.draw(0, 0);
 
     if(frames_to_skip > 0){
-        skipped_frame_count++;																			
+        skipped_frame_count++;
         // cout << skipped_frame_count << endl;
         if(skipped_frame_count > frames_to_skip){
             // cout << "mod" << endl;
@@ -116,13 +117,13 @@ void ofApp::keyPressed(int key){
             break;
         case 'd':
             frames_to_skip = clampValI(frames_to_skip+1, MAX_FRAME_SKIP);
-            break; 
+            break;
         case 'i':
             info_flag=!info_flag;
             break;
         case 'p':
             pos_flag=!pos_flag;
-            break;                
+            break;
     }
 }
 
