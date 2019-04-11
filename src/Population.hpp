@@ -11,6 +11,7 @@ public:
     vector<Creature> actors;
     vector<Brain::Genome> pool;
     int num_actors;
+    int num_dead;
 
     float timeSinceLastIteration;
 
@@ -26,7 +27,7 @@ public:
             std::cout << "making " << i << "th genome\n";
             Brain::Genome genome;
             pool.push_back(genome);
-            pool[pool.size()-1].initialize(5, 2, 2);
+            pool[pool.size()-1].initialize(5, 3, 2);
             pool[pool.size()-1].print_genome();
 
             Creature creature(
@@ -77,10 +78,26 @@ public:
 
         vector<Brain::Genome> pool_new;
 
+        std::random_device rd;
+        std::mt19937 gen(rd()); //mersenne twister
+        std::uniform_int_distribution<> random_dis(50, min(screenW, screenH) - 50);
+        std::uniform_real_distribution<> random_angle(0, 2*PI);
+
+        std::uniform_int_distribution<> random_creature(1, 3);
+
+        bool new_creature = (random_creature(gen) == 1);
+
         //fittest first
         for(auto c : fittest){
             pool_new.push_back(pool[c.second]);
             cout << "next fittest: " << c.second << " fitness: " << c.first << "\n";
+        }
+
+        if(new_creature){
+            std::cout << "Time for a random creature!\n";
+            Brain::Genome genome;
+            pool_new.push_back(genome);
+            pool_new[pool_new.size()-1].initialize(5, 3, 2);
         }
 
         //create mutated copies of fittest genomes, rotate
@@ -97,25 +114,6 @@ public:
         pool_new.resize(0);
 
         std::cout << "new pool copied\n";
-
-        std::random_device rd;
-        std::mt19937 gen(rd()); //mersenne twister
-        std::uniform_int_distribution<> random_dis(50, min(screenW, screenH) - 50);
-        std::uniform_real_distribution<> random_angle(0, 2*PI);
-
-        // for(int i=0; i<num_actors; i++){
-        //     std::cout << "generating net for actor " << i << "\n";
-        //     actors[i].net.generateFromGenome(pool[i]);
-        //     actors[i].health = 100;
-        //     actors[i].alive = true;
-        //     actors[i].food_eaten = 0;
-        //     actors[i].position_x = random_dis(gen);
-        //     actors[i].position_y = random_dis(gen);
-        // }
-
-        // std::normal_distribution<> random_normal()
-
-        // double probability_random_creature =
 
         actors.clear();
 

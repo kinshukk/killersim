@@ -6,7 +6,7 @@ Creature::Creature(float x, float y, float initial_angle, float initial_velocity
     angle = initial_angle;
     vel = initial_velocity;
     omega = 0.0;
-    radius = 20;
+    radius = 10;
     health = MAX_HEALTH;
 
     inp = {0, 0, 0, 0, 0};
@@ -51,54 +51,32 @@ double Creature::eating_rate_per_sec(double available_food){
 
 //decide outputs for next frame based on current inputs
 void Creature::think(float dt, Map &tilemap_input){
-    //normalized inputs;
-    // std::cout << "Creature.cpp BREAKPOINT 1\n";
-
     double food = tilemap_input.tile_value_at(eye0.first, eye0.second);
 
+    //normalized inputs
     inp[0] = food / 255.0;
     inp[1] = tilemap_input.tile_value_at(eye1.first, eye1.second) / 255.0;
     inp[2] = tilemap_input.tile_value_at(eye2.first, eye2.second) / 255.0;
     inp[3] = tilemap_input.tile_value_at(eye3.first, eye3.second) / 255.0;
-    // std::cout << "Creature.cpp BREAKPOINT 1.5\n";
-    inp[4] = health / MAX_HEALTH;
-
-    // std::cout << "Creature.cpp BREAKPOINT 2\n";
 
     net.evaluate(inp, outp);
-
-    // std::cout << "Creature.cpp BREAKPOINT 3\n";
-
-    // cout << "outp vector: " << outp[0] << " " << outp[1] << "\n";
 
     vel = clampValF(outp[0] * VEL_SCALE, -VELOCITY_MAX, VELOCITY_MAX);
     omega = clampValF(outp[1] * OMEGA_SCALE, -OMEGA_MAX, OMEGA_MAX);
 
-    // std::cout << "output of NN: vel:" << vel << " | omega:" << omega;
-
     double er = eating_rate_per_sec(food);
-
-    // std::cout << "\nfood_available: " << inp[0] << " | eating rate here:" << er;
 
     double delta_food = er * dt;
 
     food_eaten += delta_food;
 
-    tilemap_input.decrease_tile_value_at(eye0, 5*delta_food);
+    tilemap_input.decrease_tile_value_at(eye0, 10*delta_food);
 
     health = health + delta_food - HEALTH_DECAY_PER_SEC * dt;
 
-    // if(health < 0.0){
-    //     alive = false;
-    // }
-    //
     if(health > MAX_HEALTH){
         health = MAX_HEALTH;
     }
-
-    // std::cout << "Creature.cpp BREAKPOINT 4\n";
-
-    // std::cout << " | health:" << health << " | food eaten:" << food_eaten << "\n";
 }
 
 //to calculate movement, behaviour
@@ -108,7 +86,6 @@ void Creature::act(float dt, float screenW, float screenH){
         angle -= 2*PI;
     }
 
-    //pos = pos + velocity * delta_time
     position_x += vel * cos(angle) * dt;
     position_y += vel * sin(angle) * dt;
 
@@ -118,12 +95,12 @@ void Creature::act(float dt, float screenW, float screenH){
     eye0.first = position_x;
     eye0.second = position_y;
 
-    eye1.first = position_x + (radius + 15) * cos(angle + PI / 6.0);
-    eye1.second = position_y + (radius + 15) * sin(angle + PI / 6.0);
+    eye1.first = position_x + (radius * 2) * cos(angle + PI / 6.0);
+    eye1.second = position_y + (radius * 2) * sin(angle + PI / 6.0);
 
-    eye2.first = position_x + (radius + 15) * cos(angle - PI / 6.0);
-    eye2.second = position_y + (radius + 15) * sin(angle - PI / 6.0);
+    eye2.first = position_x + (radius * 2) * cos(angle - PI / 6.0);
+    eye2.second = position_y + (radius * 2) * sin(angle - PI / 6.0);
 
-    eye3.first = position_x - (radius + 15) * cos(angle);
-    eye3.second = position_y - (radius + 15) * sin(angle);
+    eye3.first = position_x - (radius * 2) * cos(angle);
+    eye3.second = position_y - (radius * 2) * sin(angle);
 }

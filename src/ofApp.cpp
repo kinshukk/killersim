@@ -2,8 +2,6 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-    num_iterations = 0;
-
     frames_to_skip = 0;
     skipped_frame_count = 0;
 
@@ -12,7 +10,7 @@ void ofApp::setup(){
 
     buffer.allocate(screenW, screenH);
 
-    tilemap.init(20, 20, screenW, screenH);
+    tilemap.init(40, 40, screenW, screenH);
 
     pop.initialize_random(10);
 
@@ -25,6 +23,8 @@ void ofApp::setup(){
         pop.actors[i].position_y = random_dis(gen);
     }
 
+    pop.num_dead = 0;
+
     //for showing FPS
     myFont.load("arial.ttf", 20);
 
@@ -34,16 +34,20 @@ void ofApp::setup(){
 
     //match drawing framerate with screen refresh rate
     ofSetVerticalSync(vsync_flag);
+
+    previousIterationTime = ofGetElapsedTimef();
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-    if(ofGetElapsedTimef() > (num_iterations + 1) * ITERATION_DURATION){
-        pop.init_next_generation(2, screenW, screenH);
+    if(ofGetElapsedTimef() - previousIterationTime > ITERATION_DURATION
+        || pop.num_dead >= pop.num_actors){
+        pop.init_next_generation(4, screenW, screenH);
 
         std::cout << "initialized next gen, in update function now\n";
-        num_iterations += 1;
         tilemap.regenerate_values();
+        previousIterationTime = ofGetElapsedTimef();
+        pop.num_dead = 0;
     }
 
     display_text = "";
@@ -65,6 +69,7 @@ void ofApp::update(){
                 cout << i << " died\n";
                 pop.actors[i].alive = false;
                 pop.actors[i].time_alive = ofGetElapsedTimef() - pop.timeSinceLastIteration;
+                pop.num_dead++;
             }
         }
 

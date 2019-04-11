@@ -33,8 +33,7 @@ class ofApp : public ofBaseApp{
 
 	int frames_to_skip;
 	int skipped_frame_count;
-	int num_iterations;
-
+	float previousIterationTime;
 	bool interlude = false;
 
 	ofFbo buffer;
