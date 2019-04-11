@@ -11,12 +11,18 @@
 
 #define PI 3.14159265358979323846264338
 
-#define HEALTH_DECAY_PER_SEC 1
+#define HEALTH_DECAY_PER_SEC 8
 
 #define VEL_SCALE 2000
 #define OMEGA_SCALE 50
 
+#define VELOCITY_MAX 150
+//4 * PI
+#define OMEGA_MAX 12.5663706144
+
+
 class Creature{
+public:
 
     float angle, vel, omega;
 
@@ -34,8 +40,6 @@ class Creature{
     //this is the 'k' in y(x) = k*x^2, parabolic scaling of food eating rate
     //as a function of food available
     double k;
-
-public:
     double food_eaten;
     float time_alive;
 

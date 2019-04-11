@@ -14,13 +14,6 @@ void ofApp::setup(){
 
     tilemap.init(20, 20, screenW, screenH);
 
-    // creatures.push_back(Creature(200,    //X
-    //                              200,    //Y
-    //                              0,    //initial_angle
-    //                              30     //initial_velocity
-    //                             )
-    //                    );
-
     pop.initialize_random(10);
 
     std::random_device rd;
@@ -53,14 +46,11 @@ void ofApp::update(){
         tilemap.regenerate_values();
     }
 
-    // std::cout << "ofApp update() start\n";
     display_text = "";
     display_pos = "";
 
     //time passed since last frame(seconds, float)
     dt = ofGetLastFrameTime();
-
-    // std::cout << "ofApp.cpp BREAKPOINT 1\n";
 
     for(int i=0; i<pop.actors.size(); i++){
         // std::cout << "ofApp.cpp BREAKPOINT 2\n";
@@ -80,15 +70,12 @@ void ofApp::update(){
 
         // display_pos += "\n" + std::to_string(i) + " " + std::to_string(pop.actors[i].position_x) + ", " + std::to_string(pop.actors[i].position_y);
     }
-    // std::cout << "ofApp.cpp BREAKPOINT end\n";
 
     tilemap.update(dt, screenW, screenH);
-    // std::cout << "ofApp update() end\n";
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-    // std::cout << "ofApp draw() start\n";
     if(skipped_frame_count >= frames_to_skip){
         buffer.begin();
 
@@ -116,15 +103,6 @@ void ofApp::draw(){
         display_text = std::to_string((int)ofGetFrameRate()) + "\n" + display_text;
         myFont.drawString(display_text, ofGetWidth() - 40, 30);
 
-        // if(!interlude){
-
-        // }else{
-        //     ofBackground(0);
-        //     ofSetColor(255);
-        //
-        //     myFont.drawString("iteration over", ofGetWidth()/2, ofGetHeight()/2);
-        // }
-
         buffer.end();
     }
 
@@ -132,14 +110,10 @@ void ofApp::draw(){
 
     if(frames_to_skip > 0){
         skipped_frame_count++;
-        // cout << skipped_frame_count << endl;
         if(skipped_frame_count > frames_to_skip){
-            // cout << "mod" << endl;
             skipped_frame_count %= frames_to_skip;
         }
     }
-
-    // std::cout << "ofApp draw() end\n";
 }
 
 //--------------------------------------------------------------
@@ -170,13 +144,6 @@ void ofApp::keyPressed(int key){
         case 'p':
             pos_flag=!pos_flag;
             break;
-        // case 'l':
-        //     if(interlude){
-        //         //go to next iteration
-        //         interlude = !interlude;
-        //
-        //     }
-        //     break;
     }
 }
 

@@ -30,10 +30,10 @@ public:
             pool[pool.size()-1].print_genome();
 
             Creature creature(
-                0,   //X
-                0,   //Y
+                0,      //X
+                0,      //Y
                 0,      //vx
-                0
+                0       //vy
             );
 
             actors.push_back(creature);
@@ -50,7 +50,6 @@ public:
             std::vector<double> outp = {0, 0};
 
             cout << i << "th actor: \n";
-            // pool[i].print_genome();
             cout << "\n";
             actors[i].net.evaluate(inp, outp);
         }
@@ -102,6 +101,7 @@ public:
         std::random_device rd;
         std::mt19937 gen(rd()); //mersenne twister
         std::uniform_int_distribution<> random_dis(50, min(screenW, screenH) - 50);
+        std::uniform_real_distribution<> random_angle(0, 2*PI);
 
         // for(int i=0; i<num_actors; i++){
         //     std::cout << "generating net for actor " << i << "\n";
@@ -112,6 +112,10 @@ public:
         //     actors[i].position_x = random_dis(gen);
         //     actors[i].position_y = random_dis(gen);
         // }
+
+        // std::normal_distribution<> random_normal()
+
+        // double probability_random_creature =
 
         actors.clear();
 
@@ -132,6 +136,7 @@ public:
             );
             actors[actors.size()-1].position_x = random_dis(gen);
             actors[actors.size()-1].position_y = random_dis(gen);
+            actors[actors.size()-1].angle = random_angle(gen);
         }
     }
 };

@@ -71,8 +71,8 @@ void Creature::think(float dt, Map &tilemap_input){
 
     // cout << "outp vector: " << outp[0] << " " << outp[1] << "\n";
 
-    vel = outp[0] * VEL_SCALE;
-    omega = outp[1] * OMEGA_SCALE;
+    vel = clampValF(outp[0] * VEL_SCALE, -VELOCITY_MAX, VELOCITY_MAX);
+    omega = clampValF(outp[1] * OMEGA_SCALE, -OMEGA_MAX, OMEGA_MAX);
 
     // std::cout << "output of NN: vel:" << vel << " | omega:" << omega;
 
@@ -84,7 +84,7 @@ void Creature::think(float dt, Map &tilemap_input){
 
     food_eaten += delta_food;
 
-    tilemap_input.decrease_tile_value_at(eye0, delta_food);
+    tilemap_input.decrease_tile_value_at(eye0, 5*delta_food);
 
     health = health + delta_food - HEALTH_DECAY_PER_SEC * dt;
 
@@ -104,6 +104,9 @@ void Creature::think(float dt, Map &tilemap_input){
 //to calculate movement, behaviour
 void Creature::act(float dt, float screenW, float screenH){
     angle += omega * dt;
+    if(angle > 2*PI){
+        angle -= 2*PI;
+    }
 
     //pos = pos + velocity * delta_time
     position_x += vel * cos(angle) * dt;

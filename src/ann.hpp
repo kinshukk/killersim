@@ -7,6 +7,8 @@
 #include <iostream>
 #include <stack>
 
+#define MAX_W 0.6
+
 namespace Brain{
     //represents the connecting edges
     typedef struct{
@@ -69,23 +71,33 @@ namespace Brain{
         void mutateN(int n){
             std::random_device rd;
             std::mt19937 gen(rd()); //mersenne twister
-            std::uniform_real_distribution<> random_dis(-0.1, 0.1);
+            std::uniform_real_distribution<> random_dis(-0.4, 0.4);
+            std::uniform_int_distribution<> random_int(0, genes.size()-1);
 
             //randomly select edge, add random value from [-0.5, 0.5] to weight
             for(int i=0; i<n; i++){
-                int ind = random_dis(gen);
+                int ind = random_int(gen);
 
                 std::cout << "mutating " << ind << " from " << genes[ind].weight;
 
                 genes[ind].weight += random_dis(gen);
-
+                genes[ind].weight = clampValF(genes[ind].weight, -MAX_W, MAX_W);
                 std::cout << " to " << genes[ind].weight << "\n";
             }
         }
 
-        ///mutate 2 genes by default
         void mutate(){
-            mutateN(3);
+            std::random_device rd;
+            std::mt19937 gen(rd());
+            //mean 3, variance 4
+            std::normal_distribution<> random_normal{3, 4};
+
+            int n = floor(random_normal(gen));
+            if(n <= 0){
+                n = 1;
+            }
+
+            mutateN(n);
         }
 
         void print_genome(){
@@ -93,8 +105,6 @@ namespace Brain{
                 std::cout << g.from_node << " to " << g.to_node << " weight: " << g.weight << std::endl;
             }
         }
-
-        //TODO: copy one genome, mutate
     };
 
     typedef struct{
