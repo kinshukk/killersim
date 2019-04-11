@@ -12,7 +12,7 @@ Creature::Creature(float x, float y, float initial_angle, float initial_velocity
     inp = {0, 0, 0, 0, 0};
     outp = {0, 0};
 
-    k = (5.0 * HEALTH_DECAY_PER_SEC) / (255.0 * 255.0);
+    k = (5.0 * HEALTH_DECAY_PER_SEC) / (255.0);
 }
 
 //draw the creature, duh
@@ -44,7 +44,7 @@ void Creature::draw(){
 }
 
 double Creature::eating_rate_per_sec(double available_food){
-    return k * available_food * available_food;
+    return k * available_food;
 }
 
 //decide outputs for next frame based on current inputs

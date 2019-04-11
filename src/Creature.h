@@ -11,10 +11,10 @@
 
 #define PI 3.14159265358979323846264338
 
-#define HEALTH_DECAY_PER_SEC 10
+#define HEALTH_DECAY_PER_SEC 1
 
-#define VEL_SCALE 20
-#define OMEGA_SCALE 5
+#define VEL_SCALE 2000
+#define OMEGA_SCALE 50
 
 class Creature{
 

@@ -212,7 +212,6 @@ namespace Brain{
                 // std::cout << "j: " << j << " value: " << nodes[inputs.size() + intermediates.size() + j].value;
                 output[j] = nodes[inputs.size() + intermediates.size() + j].value;
             }
-            std::cout << "\nlel\n";
         }
     };
 }

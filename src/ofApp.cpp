@@ -21,7 +21,10 @@ void ofApp::setup(){
 
     pop.initialize_random(2);
 
-
+    for(int i=0; i<pop.actors.size(); i++){
+        pop.actors[i].position_x = 100;
+        pop.actors[i].position_y = 100;
+    }
 
     //for showing FPS
     myFont.load("arial.ttf", 20);

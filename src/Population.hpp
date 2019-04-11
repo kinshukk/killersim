@@ -26,8 +26,8 @@ public:
             pool[pool.size()-1].print_genome();
 
             Creature creature(
-                10*i,   //X
-                10*i,   //Y
+                0,   //X
+                0,   //Y
                 0,      //vx
                 0
             );

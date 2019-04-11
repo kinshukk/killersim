@@ -51,7 +51,8 @@ float Map::tile_value_at(float x, float y){
     // std::cout << "Map.cpp BREAKPOINT tile_value_at 3\n";
 
     if(c < 0 || r < 0 || c >= columns || r >= columns){
-        return 0.0f;
+        //to discourage going to the edge of the map
+        return -100.0f;
     }
 
     // cout << "(" << c << ", " << r << "): " << tiles[c][r].value << "\n";
