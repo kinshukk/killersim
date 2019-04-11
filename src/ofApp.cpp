@@ -12,14 +12,16 @@ void ofApp::setup(){
 
     tilemap.init(20, 20, screenW, screenH);
 
-    creatures.push_back(Creature(200,    //X
-                                 200,    //Y
-                                 0,    //initial_angle
-                                 30     //initial_velocity
-                                )
-                       );
+    // creatures.push_back(Creature(200,    //X
+    //                              200,    //Y
+    //                              0,    //initial_angle
+    //                              30     //initial_velocity
+    //                             )
+    //                    );
 
     pop.initialize_random(2);
+
+
 
     //for showing FPS
     myFont.load("arial.ttf", 20);
@@ -34,27 +36,46 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
+    // std::cout << "ofApp update() start\n";
     display_text = "";
     display_pos = "";
 
     //time passed since last frame(seconds, float)
     dt = ofGetLastFrameTime();
 
-    for(int i=0; i<creatures.size(); i++){
-        if(creatures[i].alive){
-            creatures[i].think(dt, tilemap);
-            creatures[i].act(dt, screenW, screenH);
+    // std::cout << "ofApp.cpp BREAKPOINT 1\n";
 
-            //TODO: make this work with keypress flag
-            display_pos += "\n" + std::to_string(i) + " " + std::to_string(creatures[i].position_x) + ", " + std::to_string(creatures[i].position_y);
+    // for(int i=0; i<creatures.size(); i++){
+    //     if(creatures[i].alive){
+    //         creatures[i].think(dt, tilemap);
+    //         creatures[i].act(dt, screenW, screenH);
+    //
+    //         //TODO: make this work with keypress flag
+    //         display_pos += "\n" + std::to_string(i) + " " + std::to_string(creatures[i].position_x) + ", " + std::to_string(creatures[i].position_y);
+    //     }
+    // }
+
+    for(int i=0; i<pop.actors.size(); i++){
+        // std::cout << "ofApp.cpp BREAKPOINT 2\n";
+        if(pop.actors[i].alive){
+            // std::cout << "ofApp.cpp BREAKPOINT 3\n";
+            pop.actors[i].think(dt, tilemap);
+            // std::cout << "ofApp.cpp BREAKPOINT 4\n";
+            pop.actors[i].act(dt, screenW, screenH);
         }
+
+        // display_pos += "\n" + std::to_string(i) + " " + std::to_string(pop.actors[i].position_x) + ", " + std::to_string(pop.actors[i].position_y);
     }
+    // std::cout << "ofApp.cpp BREAKPOINT end\n";
 
     tilemap.update(dt, screenW, screenH);
+
+    // std::cout << "ofApp update() end\n";
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+    // std::cout << "ofApp draw() start\n";
     if(skipped_frame_count >= frames_to_skip){
         buffer.begin();
 
@@ -63,9 +84,9 @@ void ofApp::draw(){
 
         tilemap.draw();
 
-        for(int i=0; i<creatures.size(); i++){
-            if(creatures[i].alive){
-                creatures[i].draw();
+        for(int i=0; i<pop.actors.size(); i++){
+            if(pop.actors[i].alive){
+                pop.actors[i].draw();
             }
         }
 
@@ -73,7 +94,7 @@ void ofApp::draw(){
         	myFont.drawString(display_pos,ofGetWidth() - 500,100);
         }
 
-        display_info="Number of creatures " + std::to_string((int)creatures.size()) + "\n" + "Food Decay Rate "+std::to_string((int)tilemap.delta_food_per_sec);
+        display_info="Number of actors " + std::to_string((int)pop.actors.size()) + "\n" + "Food Decay Rate "+std::to_string((int)tilemap.delta_food_per_sec);
 
         if(info_flag){
         	myFont.drawString(display_info, ofGetWidth() - 900, 30);
@@ -95,6 +116,8 @@ void ofApp::draw(){
             skipped_frame_count %= frames_to_skip;
         }
     }
+
+    // std::cout << "ofApp draw() end\n";
 }
 
 //--------------------------------------------------------------

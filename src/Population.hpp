@@ -46,7 +46,7 @@ public:
             std::vector<double> outp = {0, 0};
 
             cout << i << "th actor: \n";
-            pool[i].print_genome();
+            // pool[i].print_genome();
             cout << "\n";
             actors[i].net.evaluate(inp, outp);
         }

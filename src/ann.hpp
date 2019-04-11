@@ -191,7 +191,7 @@ namespace Brain{
                     }
 
                     nodes[top_node].value = tanh(sum);
-                    std::cout << "value of " << top_node << " is " << nodes[top_node].value << "\n";
+                    // std::cout << "value of " << top_node << " is " << nodes[top_node].value << "\n";
 
                     S.pop();
                 }
@@ -209,8 +209,10 @@ namespace Brain{
 
             for(int j=0; j<outputs.size(); j++){
                 //proper offset
+                // std::cout << "j: " << j << " value: " << nodes[inputs.size() + intermediates.size() + j].value;
                 output[j] = nodes[inputs.size() + intermediates.size() + j].value;
             }
+            std::cout << "\nlel\n";
         }
     };
 }

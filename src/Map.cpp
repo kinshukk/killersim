@@ -44,8 +44,15 @@ void Map::regenerate_values(){
 }
 
 float Map::tile_value_at(float x, float y){
+    // std::cout << "Map.cpp BREAKPOINT tile_value_at 1\n";
     int c = floor((x * columns) / screenW);
+    // std::cout << "Map.cpp BREAKPOINT tile_value_at 2\n";
     int r = floor((y * rows) / screenH);
+    // std::cout << "Map.cpp BREAKPOINT tile_value_at 3\n";
+
+    if(c < 0 || r < 0 || c >= columns || r >= columns){
+        return 0.0f;
+    }
 
     // cout << "(" << c << ", " << r << "): " << tiles[c][r].value << "\n";
 
