@@ -12,9 +12,13 @@ public:
     vector<Brain::Genome> pool;
     int num_actors;
 
+    float timeSinceLastIteration;
+
     Population(){}
 
     void initialize_random(int n){
+        timeSinceLastIteration = ofGetElapsedTimef();
+
         num_actors = n;
 
         for(int i=0; i<num_actors; i++){

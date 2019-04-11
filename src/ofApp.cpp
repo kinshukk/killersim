@@ -61,10 +61,16 @@ void ofApp::update(){
     for(int i=0; i<pop.actors.size(); i++){
         // std::cout << "ofApp.cpp BREAKPOINT 2\n";
         if(pop.actors[i].alive){
+            std::cout << "creature" << i << ":\n";
             // std::cout << "ofApp.cpp BREAKPOINT 3\n";
             pop.actors[i].think(dt, tilemap);
             // std::cout << "ofApp.cpp BREAKPOINT 4\n";
             pop.actors[i].act(dt, screenW, screenH);
+
+            if(pop.actors[i].health <= 0.0){
+                pop.actors[i].alive = false;
+                pop.actors[i].time_alive = ofGetElapsedTimef() - pop.timeSinceLastIteration;
+            }
         }
 
         // display_pos += "\n" + std::to_string(i) + " " + std::to_string(pop.actors[i].position_x) + ", " + std::to_string(pop.actors[i].position_y);

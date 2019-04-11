@@ -65,12 +65,12 @@ void Creature::think(float dt, Map &tilemap_input){
 
     // std::cout << "Creature.cpp BREAKPOINT 3\n";
 
-    cout << "outp vector: " << outp[0] << " " << outp[1] << "\n";
+    // cout << "outp vector: " << outp[0] << " " << outp[1] << "\n";
 
     vel = outp[0] * VEL_SCALE;
     omega = outp[1] * OMEGA_SCALE;
 
-    std::cout << "output of NN: vel: " << vel << " | omega " << omega << "\n";
+    std::cout << "output of NN: vel:" << vel << " | omega:" << omega;
 
     double delta_food = eating_rate_per_sec(inp[0]) * dt;
 
@@ -78,15 +78,17 @@ void Creature::think(float dt, Map &tilemap_input){
 
     health = health + delta_food - HEALTH_DECAY_PER_SEC * dt;
 
-    if(health < 0.0){
-        alive = false;
-    }
-
-    if(health > MAX_HEALTH){
-        health = MAX_HEALTH;
-    }
+    // if(health < 0.0){
+    //     alive = false;
+    // }
+    //
+    // if(health > MAX_HEALTH){
+    //     health = MAX_HEALTH;
+    // }
 
     // std::cout << "Creature.cpp BREAKPOINT 4\n";
+
+    std::cout << " | health:" << health << "\n";
 }
 
 //to calculate movement, behaviour

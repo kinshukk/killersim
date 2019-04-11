@@ -23,11 +23,6 @@ class Creature{
     //for rendering only as of now
     float radius;
 
-    //range [0, 100]
-    //increase every time creature eats grass
-    //decrease at a constant rate every frame
-    float health;
-
     pair<double, double> eye0;
     pair<double, double> eye1;
     pair<double, double> eye2;
@@ -39,7 +34,15 @@ class Creature{
     //this is the 'k' in y(x) = k*x^2, parabolic scaling of food eating rate
     //as a function of food available
     double k;
+
 public:
+    float time_alive;
+    
+    //range [0, 100]
+    //increase every time creature eats grass
+    //decrease at a constant rate every frame
+    float health;
+
     // Brain::Genome genome;
     Brain::NeuralNet net;
 
