@@ -16,13 +16,14 @@ class Map{
     int rows, columns;
     float width, height;
     float screenW, screenH;
-    int delta_food_per_sec;
+    
 
     //100 default since I couldn't get dynamic size initialization to work
     //NOTE: all 100 aren't used always
     vector<tile> tiles[100];
 
 public:
+    int delta_food_per_sec;
     void init(int r, int c, int screenWidth, int screenHeight);
     void draw();
     void update(float dt, float screenW, float screenH);

@@ -17,12 +17,16 @@ class ofApp : public ofBaseApp{
 	ofTrueTypeFont myFont;
 
 	std::string display_text;
+	std::string display_info;
+	std::string display_pos;
 
 	vector<Creature> creatures;
 
 	Map tilemap;
 
 	bool vsync_flag;
+	bool info_flag;
+	bool pos_flag;
 
 	int frames_to_skip;
 	int skipped_frame_count;
