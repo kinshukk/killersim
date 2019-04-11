@@ -54,6 +54,16 @@ namespace Brain{
             }
         }
 
+        void copy(Genome &old){
+            num_outputs = old.num_outputs;
+            num_intermediate = old.num_intermediate;
+            num_inputs = old.num_inputs;
+
+            for(gene g:old.genes){
+                genes.push_back(g);
+            }
+        }
+
 
         //mutate a number of genes
         void mutateN(int n){
@@ -75,7 +85,7 @@ namespace Brain{
 
         ///mutate 2 genes by default
         void mutate(){
-            mutateN(2);
+            mutateN(3);
         }
 
         void print_genome(){

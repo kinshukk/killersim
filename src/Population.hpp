@@ -55,6 +55,85 @@ public:
             actors[i].net.evaluate(inp, outp);
         }
     }
+
+    vector<pair<double, int> > getFittestN(int n){
+        n = clampValI(n, 1, num_actors);
+
+        vector<pair<double, int> > res;
+
+        for(int i=0; i<num_actors; i++){
+            res.push_back(make_pair(actors[i].health, i));
+            cout << "creature " << i << " health: " << actors[i].health << "\n";
+        }
+
+        sort(res.begin(), res.end(), greater<pair<double, int> >());
+
+        res.resize(n);
+
+        return res;
+    }
+
+    void init_next_generation(int n, int screenW, int screenH){
+        vector<pair<double, int> > fittest = getFittestN(n);
+
+        vector<Brain::Genome> pool_new;
+
+        //fittest first
+        for(auto c : fittest){
+            pool_new.push_back(pool[c.second]);
+            cout << "next fittest: " << c.second << " fitness: " << c.first << "\n";
+        }
+
+        //create mutated copies of fittest genomes, rotate
+        for(int i=0; pool_new.size() < pool.size(); i = (i+1) % fittest.size()){
+            Brain::Genome genome;
+            genome.copy(pool[fittest[i].second]);
+            genome.mutate();
+            pool_new.push_back(genome);
+        }
+
+        std::cout << "new pool created\n";
+
+        pool = pool_new;
+        pool_new.resize(0);
+
+        std::cout << "new pool copied\n";
+
+        std::random_device rd;
+        std::mt19937 gen(rd()); //mersenne twister
+        std::uniform_int_distribution<> random_dis(50, min(screenW, screenH) - 50);
+
+        // for(int i=0; i<num_actors; i++){
+        //     std::cout << "generating net for actor " << i << "\n";
+        //     actors[i].net.generateFromGenome(pool[i]);
+        //     actors[i].health = 100;
+        //     actors[i].alive = true;
+        //     actors[i].food_eaten = 0;
+        //     actors[i].position_x = random_dis(gen);
+        //     actors[i].position_y = random_dis(gen);
+        // }
+
+        actors.clear();
+
+        for(int i=0; i<num_actors; i++){
+            std::cout << "initializing actor " << i << "\n";
+            Creature creature(
+                0,   //X
+                0,   //Y
+                0,      //vx
+                0       //vy
+            );
+
+            actors.push_back(creature);
+
+            // actors[actors.size()-1].net();
+            actors[actors.size()-1].net.generateFromGenome(
+                pool[pool.size()-1]
+            );
+            actors[actors.size()-1].position_x = random_dis(gen);
+            actors[actors.size()-1].position_y = random_dis(gen);
+        }
+    }
 };
 
 #endif

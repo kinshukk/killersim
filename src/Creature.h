@@ -36,8 +36,9 @@ class Creature{
     double k;
 
 public:
+    double food_eaten;
     float time_alive;
-    
+
     //range [0, 100]
     //increase every time creature eats grass
     //decrease at a constant rate every frame

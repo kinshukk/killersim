@@ -2,9 +2,6 @@
 #include "utilities.h"
 
 void Map::init(int r, int c, int screenWidth, int screenHeight){
-    //random seed
-    srand(42);
-
     delta_food_per_sec = 1;
 
     screenW = screenWidth;
@@ -52,7 +49,7 @@ float Map::tile_value_at(float x, float y){
 
     if(c < 0 || r < 0 || c >= columns || r >= columns){
         //to discourage going to the edge of the map
-        return -100.0f;
+        return -10.0f;
     }
 
     // cout << "(" << c << ", " << r << "): " << tiles[c][r].value << "\n";
@@ -63,6 +60,10 @@ float Map::tile_value_at(float x, float y){
 void Map::decrease_tile_value_at(std::pair<double, double> coords, double delta){
     int c = floor((coords.first * columns) / screenW);
     int r = floor((coords.second * rows) / screenH);
+
+    if(c < 0 || c >= columns || r < 0 || r >= rows){
+        return;
+    }
 
     tiles[c][r].value = clampValF(tiles[c][r].value - delta, 255.0);
 }

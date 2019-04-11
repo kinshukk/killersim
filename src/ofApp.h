@@ -9,6 +9,7 @@
 #include <string>
 
 #define MAX_FRAME_SKIP 500
+#define ITERATION_DURATION 20
 
 class ofApp : public ofBaseApp{
 	float screenW, screenH;
@@ -32,6 +33,9 @@ class ofApp : public ofBaseApp{
 
 	int frames_to_skip;
 	int skipped_frame_count;
+	int num_iterations;
+
+	bool interlude = false;
 
 	ofFbo buffer;
 
