@@ -12,8 +12,7 @@
 #define PI 3.14159265358979323846264338
 
 class Creature{
-    float position_x, position_y;
-
+    
     float angle, vel, omega;
 
     //for rendering only as of now
@@ -33,6 +32,7 @@ class Creature{
     // Brain::NeuralNet brain;
 
 public:
+    float position_x, position_y;
 
     bool alive = true;
     Creature(float x, float y, float v_x, float v_y);

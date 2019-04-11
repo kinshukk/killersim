@@ -23,6 +23,8 @@ void ofApp::setup(){
     myFont.load("arial.ttf", 20);
 
     vsync_flag = true;
+    info_flag=false;
+    pos_flag=false;
 
     //match drawing framerate with screen refresh rate
     ofSetVerticalSync(vsync_flag);
@@ -41,7 +43,7 @@ void ofApp::update(){
             creatures[i].move(dt, screenW, screenH);
 
             //TODO: make this work with keypress flag
-            // display_text += "\n" + i + " " + creatures[i].position_x + ", " + creatures[i].position_y;
+            display_pos += "\n" + std::to_string(i) + " " + std::to_string(creatures[i].position_x) + ", " + std::to_string(creatures[i].position_y);
         }
     }
 
@@ -65,10 +67,17 @@ void ofApp::draw(){
         }
         //TODO: toggle show info on top right when a key is pressed
         //info other than FPS as well, like delta_food_per_sec, num of creatures on the map, etc.
-
+           if(pos_flag)
+            {
+            	myFont.drawString(display_pos,ofGetWidth() - 500,100);
+            }
+        display_info="Number of creatures " + std::to_string((int)creatures.size()) + "\n" + "Food Decay Rate "+std::to_string((int)tilemap.delta_food_per_sec);
+           if(info_flag)
+        	{
+        		myFont.drawString(display_info, ofGetWidth() - 900, 30);
+            }   
         //Display FPS on top-right of screen
         display_text = std::to_string((int)ofGetFrameRate()) + "\n" + display_text;
-
         myFont.drawString(display_text, ofGetWidth() - 40, 30);
 
         buffer.end();
@@ -77,7 +86,7 @@ void ofApp::draw(){
     buffer.draw(0, 0);
 
     if(frames_to_skip > 0){
-        skipped_frame_count++;
+        skipped_frame_count++;																			
         // cout << skipped_frame_count << endl;
         if(skipped_frame_count > frames_to_skip){
             // cout << "mod" << endl;
@@ -107,7 +116,13 @@ void ofApp::keyPressed(int key){
             break;
         case 'd':
             frames_to_skip = clampValI(frames_to_skip+1, MAX_FRAME_SKIP);
+            break; 
+        case 'i':
+            info_flag=!info_flag;
             break;
+        case 'p':
+            pos_flag=!pos_flag;
+            break;                
     }
 }
 
