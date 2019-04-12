@@ -7,7 +7,7 @@ Creature::Creature(float x, float y, float initial_angle, float initial_velocity
     vel = initial_velocity;
     omega = 0.0;
     health = MAX_HEALTH;
-    radius = 10;
+    radius = 10-(100-health)*0.1;
     inp = {0, 0, 0, 0, 0};
     outp = {0, 0};
 
