@@ -1,6 +1,9 @@
-![alt text](https://img.shields.io/badge/gives-sleepless%20nights-blueviolet.svg?style=flat-square)
-![alt text](https://img.shields.io/badge/contains-marijuana-brightgreen.svg?style=flat-square)
 # killersim
+![alt text](https://img.shields.io/badge/build-hypertension-blueviolet.svg?style=flat-square)
+![alt text](https://img.shields.io/badge/installs-insomnia-blue.svg?style=flat-square)
+![alt text](https://img.shields.io/badge/time-drain-brightgreen.svg?style=flat-square)
+![alt text](https://img.shields.io/badge/license-to%20kill-red.svg?style=flat-square)
+
 An evolution simulator. There are creatures that eat food and a map that has food. Creatures have genomes encoding their brain(a simple 3 layer Neural Net), which are evolved.
 
 ![alt text](https://imgur.com/dWk3Cvz.png)
