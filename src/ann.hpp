@@ -81,7 +81,7 @@ namespace Brain{
                 std::cout << "mutating " << ind << " from " << genes[ind].weight;
 
                 genes[ind].weight += random_dis(gen);
-                genes[ind].weight = clampValF(genes[ind].weight, -MAX_W, MAX_W);
+                genes[ind].weight = clampValF(genes[ind].weight, 0, MAX_W);
                 std::cout << " to " << genes[ind].weight << "\n";
             }
         }

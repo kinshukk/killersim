@@ -27,7 +27,7 @@ public:
             std::cout << "making " << i << "th genome\n";
             Brain::Genome genome;
             pool.push_back(genome);
-            pool[pool.size()-1].initialize(5, 3, 2);
+            pool[pool.size()-1].initialize(5, 2, 5);
             pool[pool.size()-1].print_genome();
 
             Creature creature(
@@ -97,7 +97,7 @@ public:
             std::cout << "Time for a random creature!\n";
             Brain::Genome genome;
             pool_new.push_back(genome);
-            pool_new[pool_new.size()-1].initialize(5, 3, 2);
+            pool_new[pool_new.size()-1].initialize(5, 2, 5);
         }
 
         //create mutated copies of fittest genomes, rotate

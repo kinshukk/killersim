@@ -12,6 +12,7 @@
 #define ITERATION_DURATION 20
 
 class ofApp : public ofBaseApp{
+	std::pair<double, int> fittest_till_now;
 	float paneW;
 	float screenW, screenH;
 

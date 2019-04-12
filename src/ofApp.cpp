@@ -3,6 +3,7 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
+    fittest_till_now = std::make_pair(0, 0);
     frames_to_skip = 0;
     skipped_frame_count = 0;
 
@@ -42,6 +43,12 @@ void ofApp::setup(){
 void ofApp::update(){
     if(ofGetElapsedTimef() - previousIterationTime > ITERATION_DURATION
         || pop.num_dead >= pop.num_actors){
+        std::pair<double, int> fittest_here = pop.getFittestN(1)[0];
+
+        if(fittest_till_now.first < fittest_here.first){
+            fittest_till_now = fittest_here;
+        }
+
         pop.init_next_generation(4, screenW, screenH);
 
         std::cout << "initialized next gen, in update function now\n";
@@ -95,12 +102,14 @@ void ofApp::draw(){
         display_info="Number of actors " + std::to_string((int)pop.actors.size()) + "\n" + "Food Growth Rate "+std::to_string((int)tilemap.delta_food_per_sec);
         //Display FPS on top-right of screen
         display_info = std::to_string((int)ofGetFrameRate()) + "\n" + display_info;
-        ofDrawBitmapStringHighlight(display_info, ofGetWidth() - paneW + 10, 30,black,white);
-       	ofDrawBitmapStringHighlight("Health Decay 8 \nPer Second", ofGetWidth() - paneW + 10, 75,black,white); 
-        ofDrawBitmapStringHighlight("Eating Rate "+std::to_string(0.000692042)+"\nMultiplier", ofGetWidth() - paneW + 10,105,black,white);       
-        ofDrawBitmapStringHighlight("Length of "+std::to_string(ofGetElapsedTimef()-previousIterationTime)+"\nIteration", ofGetWidth() - paneW + 10,135,black,white);        	
-        
-
+        display_info = display_info + "\n\nFittest Creature\n";
+        display_info += "Generation: " + std::to_string(fittest_till_now.second);
+        display_info += "\nFitness: " + std::to_string(fittest_till_now.first);
+        display_info += "\n\nHealth Decay 8 Per Second";
+        display_info += "\nEating Rate Multiplier: "+std::to_string(0.000692042);
+        display_info += "\nLength of Iteration: "+std::to_string(ofGetElapsedTimef()-previousIterationTime);
+        std::cout << display_info << endl;
+        ofDrawBitmapStringHighlight(display_info, screenW + 10, 30,black,white);
 
         buffer.end();
     }
@@ -140,7 +149,7 @@ void ofApp::keyPressed(int key){
         case 'p':
             pos_flag=!pos_flag;
             break;
-                
+
     }
 }
 

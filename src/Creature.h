@@ -14,7 +14,7 @@
 #define HEALTH_DECAY_PER_SEC 8
 
 #define VEL_SCALE 2000
-#define OMEGA_SCALE 50
+#define OMEGA_SCALE 100
 
 #define VELOCITY_MAX 150
 //4 * PI
