@@ -1,4 +1,5 @@
 #include "ofApp.h"
+#include "Creature.h"
 
 //--------------------------------------------------------------
 void ofApp::setup(){
@@ -31,7 +32,6 @@ void ofApp::setup(){
 
     vsync_flag = true;
     pos_flag=false;
-
     //match drawing framerate with screen refresh rate
     ofSetVerticalSync(vsync_flag);
 
@@ -96,6 +96,11 @@ void ofApp::draw(){
         //Display FPS on top-right of screen
         display_info = std::to_string((int)ofGetFrameRate()) + "\n" + display_info;
         ofDrawBitmapStringHighlight(display_info, ofGetWidth() - paneW + 10, 30,black,white);
+       	ofDrawBitmapStringHighlight("Health Decay 8 \nPer Second", ofGetWidth() - paneW + 10, 75,black,white); 
+        ofDrawBitmapStringHighlight("Eating Rate "+std::to_string(0.000692042)+"\nMultiplier", ofGetWidth() - paneW + 10,105,black,white);       
+        ofDrawBitmapStringHighlight("Length of "+std::to_string(ofGetElapsedTimef()-previousIterationTime)+"\nIteration", ofGetWidth() - paneW + 10,135,black,white);        	
+        
+
 
         buffer.end();
     }
@@ -135,6 +140,7 @@ void ofApp::keyPressed(int key){
         case 'p':
             pos_flag=!pos_flag;
             break;
+                
     }
 }
 
