@@ -12,15 +12,14 @@
 #define ITERATION_DURATION 20
 
 class ofApp : public ofBaseApp{
+	float paneW;
 	float screenW, screenH;
 
 	float dt;
 
 	ofTrueTypeFont myFont;
 
-	std::string display_text;
 	std::string display_info;
-	std::string display_pos;
 
 	vector<Creature> creatures;
 	Population pop;
@@ -28,7 +27,6 @@ class ofApp : public ofBaseApp{
 	Map tilemap;
 
 	bool vsync_flag;
-	bool info_flag;
 	bool pos_flag;
 
 	int frames_to_skip;

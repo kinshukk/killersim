@@ -5,10 +5,11 @@ void ofApp::setup(){
     frames_to_skip = 0;
     skipped_frame_count = 0;
 
-    screenW = ofGetWidth();
     screenH = ofGetHeight();
+    screenW = screenH;
+    paneW = ofGetWidth() - screenH;
 
-    buffer.allocate(screenW, screenH);
+    buffer.allocate(ofGetWidth(), screenH);
 
     tilemap.init(40, 40, screenW, screenH);
 
@@ -29,7 +30,6 @@ void ofApp::setup(){
     myFont.load("arial.ttf", 20);
 
     vsync_flag = true;
-    info_flag=false;
     pos_flag=false;
 
     //match drawing framerate with screen refresh rate
@@ -49,9 +49,6 @@ void ofApp::update(){
         previousIterationTime = ofGetElapsedTimef();
         pop.num_dead = 0;
     }
-
-    display_text = "";
-    display_pos = "";
 
     //time passed since last frame(seconds, float)
     dt = ofGetLastFrameTime();
@@ -73,7 +70,6 @@ void ofApp::update(){
             }
         }
 
-        // display_pos += "\n" + std::to_string(i) + " " + std::to_string(pop.actors[i].position_x) + ", " + std::to_string(pop.actors[i].position_y);
     }
 
     tilemap.update(dt, screenW, screenH);
@@ -96,18 +92,10 @@ void ofApp::draw(){
             }
         }
 
-        if(pos_flag){
-            myFont.drawString(display_pos,ofGetWidth() - 500,100);
-        }
-
-        display_info="Number of actors " + std::to_string((int)pop.actors.size()) + "\n" + "Food Decay Rate "+std::to_string((int)tilemap.delta_food_per_sec);
-
-        if(info_flag){
-            ofDrawBitmapStringHighlight(display_info, ofGetWidth() - 900, 30,black,white);
-        }
+        display_info="Number of actors " + std::to_string((int)pop.actors.size()) + "\n" + "Food Growth Rate "+std::to_string((int)tilemap.delta_food_per_sec);
         //Display FPS on top-right of screen
-        display_text = std::to_string((int)ofGetFrameRate()) + "\n" + display_text;
-        ofDrawBitmapStringHighlight(display_text, ofGetWidth() - 40, 30,black,white);
+        display_info = std::to_string((int)ofGetFrameRate()) + "\n" + display_info;
+        ofDrawBitmapStringHighlight(display_info, ofGetWidth() - paneW + 10, 30,black,white);
 
         buffer.end();
     }
@@ -143,9 +131,6 @@ void ofApp::keyPressed(int key){
             break;
         case 'd':
             frames_to_skip = clampValI(frames_to_skip+1, MAX_FRAME_SKIP);
-            break;
-        case 'i':
-            info_flag=!info_flag;
             break;
         case 'p':
             pos_flag=!pos_flag;
