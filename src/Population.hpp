@@ -68,7 +68,6 @@ public:
 
         sort(res.begin(), res.end(), greater<pair<double, int> >());
 
-    double food = tilemap_input.tile_value_at(eye0.first, eye0.second);
         res.resize(n);
 
         return res;
