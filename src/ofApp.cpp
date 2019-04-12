@@ -86,7 +86,8 @@ void ofApp::draw(){
 
         ofBackground(0);  // Clear the screen with a black color
         ofSetColor(255);  // Set the drawing color to white
-
+        ofColor black(0,0,0);
+        ofColor white(255,255,255);
         tilemap.draw();
 
         for(int i=0; i<pop.actors.size(); i++){
@@ -102,11 +103,11 @@ void ofApp::draw(){
         display_info="Number of actors " + std::to_string((int)pop.actors.size()) + "\n" + "Food Decay Rate "+std::to_string((int)tilemap.delta_food_per_sec);
 
         if(info_flag){
-            myFont.drawString(display_info, ofGetWidth() - 900, 30);
+            ofDrawBitmapStringHighlight(display_info, ofGetWidth() - 900, 30,black,white);
         }
         //Display FPS on top-right of screen
         display_text = std::to_string((int)ofGetFrameRate()) + "\n" + display_text;
-        myFont.drawString(display_text, ofGetWidth() - 40, 30);
+        ofDrawBitmapStringHighlight(display_text, ofGetWidth() - 40, 30,black,white);
 
         buffer.end();
     }
