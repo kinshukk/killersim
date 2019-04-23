@@ -17,10 +17,12 @@ class ofApp : public ofBaseApp{
 	float screenW, screenH;
 
 	float dt;
+    int CurrentCreature;
 
 	ofTrueTypeFont myFont;
 
 	std::string display_info;
+	std::string display_nn;
 
 	vector<Creature> creatures;
 	Population pop;
@@ -28,7 +30,7 @@ class ofApp : public ofBaseApp{
 	Map tilemap;
 
 	bool vsync_flag;
-	bool pos_flag;
+
 
 	int frames_to_skip;
 	int skipped_frame_count;
